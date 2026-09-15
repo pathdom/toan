@@ -431,7 +431,7 @@
     <p class="lp-subtitle">Để lại thông tin, tư vấn viên sẽ gọi lại trong ít phút.</p>
 
     <form id="leadForm">
-      <input type="hidden" name="access_key" value="DÁN_ACCESS_KEY_CỦA_BẠN_VÀO_ĐÂY">
+      <input type="hidden" name="access_key" value="650cce5a-e81c-4849-9a9e-e3fe6856627e">
       <input type="hidden" name="subject" value="Khách hàng mới đăng ký nhận báo giá VinFast">
 
       <input type="text" name="name" placeholder="Họ và tên *" required>
@@ -448,12 +448,9 @@
 
 <script>
   window.addEventListener('load', function () {
-    if (!sessionStorage.getItem('lpShown')) {
-      setTimeout(function () {
-        document.getElementById('leadPopupOverlay').classList.add('active');
-        sessionStorage.setItem('lpShown', '1');
-      }, 3000);
-    }
+    setTimeout(function () {
+      document.getElementById('leadPopupOverlay').classList.add('active');
+    }, 3000);
   });
 
   function closeLeadPopup() {
