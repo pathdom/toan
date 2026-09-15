@@ -423,5 +423,77 @@
 
 <a href="#top" class="back-to-top" aria-label="Lên đầu trang">&uarr;</a>
 
+<!-- ============ LEAD POPUP ============ -->
+<div id="leadPopupOverlay" class="lead-popup-overlay">
+  <div class="lead-popup">
+    <button class="lead-popup-close" onclick="closeLeadPopup()" aria-label="Đóng">&times;</button>
+    <h3>Nhận báo giá &amp; ưu đãi mới nhất</h3>
+    <p class="lp-subtitle">Để lại thông tin, tư vấn viên sẽ gọi lại trong ít phút.</p>
+
+    <form id="leadForm">
+      <input type="hidden" name="access_key" value="DÁN_ACCESS_KEY_CỦA_BẠN_VÀO_ĐÂY">
+      <input type="hidden" name="subject" value="Khách hàng mới đăng ký nhận báo giá VinFast">
+
+      <input type="text" name="name" placeholder="Họ và tên *" required>
+      <input type="tel" name="phone" placeholder="Số điện thoại *" required>
+      <input type="text" name="xe_quan_tam" placeholder="Xe quan tâm (VD: VF 5)">
+      <textarea name="loi_nhan" placeholder="Lời nhắn (không bắt buộc)" rows="3"></textarea>
+
+      <button type="submit" class="lp-submit">Gửi yêu cầu tư vấn</button>
+      <p class="lp-note">Bằng việc gửi thông tin, bạn đồng ý để chúng tôi liên hệ tư vấn.</p>
+      <p id="lpMessage" class="lp-message"></p>
+    </form>
+  </div>
+</div>
+
+<script>
+  window.addEventListener('load', function () {
+    if (!sessionStorage.getItem('lpShown')) {
+      setTimeout(function () {
+        document.getElementById('leadPopupOverlay').classList.add('active');
+        sessionStorage.setItem('lpShown', '1');
+      }, 3000);
+    }
+  });
+
+  function closeLeadPopup() {
+    document.getElementById('leadPopupOverlay').classList.remove('active');
+  }
+
+  document.getElementById('leadPopupOverlay').addEventListener('click', function (e) {
+    if (e.target === this) closeLeadPopup();
+  });
+
+  document.getElementById('leadForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var form = e.target;
+    var msg = document.getElementById('lpMessage');
+    msg.textContent = 'Đang gửi...';
+    msg.style.color = '#666';
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(Object.fromEntries(new FormData(form)))
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success) {
+          form.reset();
+          msg.style.color = 'green';
+          msg.textContent = 'Cảm ơn bạn! Chúng tôi sẽ liên hệ sớm nhất.';
+          setTimeout(closeLeadPopup, 2000);
+        } else {
+          msg.style.color = 'red';
+          msg.textContent = 'Có lỗi, vui lòng thử lại.';
+        }
+      })
+      .catch(() => {
+        msg.style.color = 'red';
+        msg.textContent = 'Có lỗi, vui lòng thử lại.';
+      });
+  });
+</script>
+
 </body>
 </html>
