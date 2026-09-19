@@ -257,6 +257,15 @@ ul { list-style: none; }
   font-size: 14.5px;
 }
 
+sup, .unit {
+  font-size: 0.68em;
+  vertical-align: 0.35em;
+  line-height: 0;
+  font-weight: 600;
+  margin-left: 2px;
+  display: inline-block;
+}
+
 /* ============ MISSION / SUSTAINABILITY ============ */
 .mission-row {
   display: grid;
