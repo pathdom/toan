@@ -916,7 +916,7 @@ figcaption {
 }
 .rolling-price-note {
   text-align: center;
-  color: #b20000;
+  color: #b20000 !important;
   font-weight: 700;
   font-size: 15px;
   line-height: 1.6;
